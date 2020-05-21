@@ -1,0 +1,11 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Shlyapa The Game{% endblock %}
+{% block content %}
+    <main role="main" class="container">
+    <h1 class="text-center">Shlyapa The Game</h1>
+        <h2 class="text-center">Game over</h2>
+
+        <a class="btn btn-primary btn-lg btn-block"
+           href="{{ url_for("handler_make") }}">Create new hat</a>
+    </main>
+{% endblock %}

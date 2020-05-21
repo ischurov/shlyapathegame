@@ -1,0 +1,24 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Shlyapa The Game{% endblock %}
+{% block content %}
+    <main role="main" class="container">
+    <h1 class="text-center">Shlyapa The Game</h1>
+        <h2 class="text-center">Ready to start?</h2>
+    <p class="text-center">We have {{ hat.words_inside | length }} words in the hat.</p>
+    <div class="row">
+    <div class="col">
+        <form method="POST">
+        <input class="btn btn-success btn-lg btn-block"
+               {% if not hat.words_inside %}
+                disabled
+               {% endif %}
+               type="submit" value="Start!">
+    </form>
+    </div>
+        <div class="col">
+        <a class="btn btn-primary btn-lg btn-block"
+           href="{{ url_for("handler_addwords", hat_id=hat.id) }}">Add more words</a>
+    </div>
+    </div>
+    </main>
+{% endblock %}
