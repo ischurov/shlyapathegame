@@ -1,0 +1,18 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Shlyapa The Game{% endblock %}
+{% block content %}
+    <main role="main" class="container">
+    <h1 class="text-center">Shlyapa The Game</h1>
+    <h2 class="text-center">Welcome!</h2>
+        <form method="POST">
+            {{ form.csrf_token }}
+            <div class="text-center">
+                {{ form.hat_id(size=40, placeholder=form.hat_id.description) }}
+            <input class="btn btn-primary" type="submit" value="Join game">
+                <br/>
+                <a class="btn btn-outline-secondary" href="{{ url_for("handler_make") }}">New hat</a>
+            </div>
+
+        </form>
+    </main>
+{% endblock %}
