@@ -11,6 +11,7 @@ from flask_wtf import FlaskForm
 from wtforms import (
     validators,
     TextAreaField,
+    StringField,
 )
 import re
 
@@ -20,7 +21,6 @@ import uuid
 from sqlalchemy_utils import UUIDType
 
 app = Flask(__name__)
-DATABASE_FILE = '/Users/user/prj/shlyapagame/db.sqlite'
 app.config.from_pyfile("config.py")
 
 Bootstrap(app)
@@ -56,6 +56,21 @@ class AddWordsForm(FlaskForm):
         "Enter words, delimited by spaces, commas or newlines",
         validators=[validators.DataRequired()],
     )
+
+class EnterIdForm(FlaskForm):
+    hat_id = StringField("Hat ID", description="Hat ID")
+    def validate(self):
+        rv = FlaskForm.validate(self)
+        if not rv:
+            return False
+
+        hat = Hat.query.get(self.hat_id.data)
+
+        if not hat:
+            self.name.errors.append("Hat not found")
+            return False
+        return True
+
 
 @app.route("/make")
 def handler_make():
@@ -119,7 +134,6 @@ def handler_getword(hat_id):
         return redirect(url_for("handler_addwords", hat_id=hat.id))
     words = hat.words_inside
     if not hat.words_inside:
-        db.session.commit()
         return redirect(url_for("handler_gameover", hat_id=hat.id))
     word = random.choice(words)
     return render_template("getword.html", hat=hat, word=word)
@@ -133,9 +147,13 @@ def handler_removeword(hat_id, word_id):
         db.session.commit()
     return redirect(url_for("handler_play", hat_id=hat.id))
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+@app.route('/', methods=('POST', 'GET'))
+def handler_homepage():
+    form = EnterIdForm()
+    if request.method == "POST" and form.validate_on_submit():
+        return redirect(url_for("handler_play", hat_id=form.hat_id.data))
+    return render_template("homepage.html", form=form)
+
 
 @app.route("/gameover/<hat_id>")
 def handler_gameover(hat_id):

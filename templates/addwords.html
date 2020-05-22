@@ -5,6 +5,7 @@
         <h1>Shlyapa The Game</h1>
         <h2>Adding Words</h2>
         <p>We have {{ hat.words | length }} words in the hat so far</p>
+        <div style="margin-bottom: 0.5em;">
         <form method="POST">
             {{ form.csrf_token }}
             <p>
@@ -15,7 +16,9 @@
             <input class="btn btn-primary" type="submit" value="Add words">
             <a class="btn btn-outline-secondary" href="{{ url_for("handler_start", hat_id=hat.id) }}">Start game</a>
         </form>
+        </div>
 
+            <p>Send <a href="{{ url_for("handler_addwords", hat_id=hat.id) }}">this link</a> to your friends, or tell them hat id: <strong>{{ hat.id }}</strong></p>
 
     </main>
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block content %}
     <main role="main" class="container">
     <h1 class="text-center">Shlyapa The Game</h1>
-    <h2 class="text-center">{{ word.text | upper }}</h2>
+    <h2 class="text-center" style="text-transform: uppercase">{{ word.text }}</h2>
 <div class="row">
 <div class="col">
     <form action="{{ url_for("handler_removeword", hat_id=hat.id, word_id=word.id) }}" method="POST">
@@ -16,4 +16,5 @@
        href="{{ url_for("handler_play", hat_id=hat.id) }}">Stop guessing</a>
 </div>
 </div>
+    </main>
 {% endblock %}
